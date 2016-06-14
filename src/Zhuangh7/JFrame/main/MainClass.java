@@ -31,7 +31,7 @@ public class MainClass {
 	private static int Str_NUM = 15;
 	/*static JLabel label1 = new JLabel("1");
 	static JLabel label2 = new JLabel("2");*/
-	//static JTextField tf = new JTextField();
+	static JTextField tf = new JTextField();
 	static JButton b = new JButton("connect");
 	static JLabel t;
 	private static JFrame Win;

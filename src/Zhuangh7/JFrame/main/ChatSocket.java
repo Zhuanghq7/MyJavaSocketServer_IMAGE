@@ -4,7 +4,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;  
 import java.io.IOException;  
 import java.io.InputStreamReader;  
-import java.io.OutputStreamWriter;  
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;  
 import java.net.Socket;  
   
@@ -18,7 +19,9 @@ public class ChatSocket extends Thread {
       
     public void out(String out) {  
         try {  
+        	//PrintWriter os=new PrintWriter(socket.getOutputStream());
             socket.getOutputStream().write((out+"\n").getBytes("UTF-8"));  
+        	//os.println(out);
         } catch (UnsupportedEncodingException e) {  
             e.printStackTrace();  
         } catch (IOException e) {  
@@ -48,7 +51,7 @@ public class ChatSocket extends Thread {
     							socket.getInputStream(),"UTF-8"));  
     			String line = null;  
     			while ((line = br.readLine()) != null) {  
-    				System.out.println(line);  
+    				MainClass.print(line);  
     				ChatManager.getChatManager().publish(this, line);  
     			}  
     			
