@@ -20,6 +20,7 @@ public class ChatManager {
     
   public void remove(ChatSocket cs) {  
       vector.remove(cs);  
+      ServerListener.Client_num--;
   }  
     
   public void publish(ChatSocket cs,String out) {  

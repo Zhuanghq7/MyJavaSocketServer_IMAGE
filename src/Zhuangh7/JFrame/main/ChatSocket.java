@@ -12,7 +12,6 @@ import java.net.Socket;
 public class ChatSocket extends Thread {  
       
     Socket socket;  
-      
     public ChatSocket(Socket s){  
         this.socket = s;  
     }  
@@ -38,9 +37,16 @@ public class ChatSocket extends Thread {
     		out("你是第"+ServerListener.Client_num+"个客户");
     		if(ServerListener.Client_num==1){
     			out("等待客户2");
-    			while(ServerListener.Client_num<2){
-    				
+    			while(ServerListener.Client_num!=2){
+    			//	out(""+ServerListener.Client_num);
+    				try {
+						this.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
     			}
+    			out("客户2加入到聊天");
     		}
     		else{
     			out("与客户1配对");
@@ -54,9 +60,6 @@ public class ChatSocket extends Thread {
     				MainClass.print(line);  
     				ChatManager.getChatManager().publish(this, line);  
     			}  
-    			
-    			
-    			
 	            br.close();
 	            MainClass.print("断开了一个客户端链接");  
 	            ChatManager.getChatManager().remove(this);  
