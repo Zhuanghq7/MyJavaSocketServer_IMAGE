@@ -23,12 +23,28 @@ public class ChatManager {
       ServerListener.Client_num--;
   }  
     
-  public void publish(ChatSocket cs,String out) {  
+/*  public void publish(ChatSocket cs,String out) {  
       for (int i = 0; i < vector.size(); i++) {  
           ChatSocket csChatSocket = vector.get(i);  
           if (!cs.equals(csChatSocket)) {  
               csChatSocket.out(out);  
           }  
       }  
-  }  
+  }*/
+  public void publish_byte(ChatSocket cs,byte[] b){
+	  for(int i = 0;i<vector.size();i++){
+		  ChatSocket csChatSocket = vector.get(i);
+		  if(!cs.equals(csChatSocket)){
+			  csChatSocket.outByte(b);
+		  }
+	  }
+  }
+  public void publish_size(ChatSocket cs,int u){
+	  for(int i = 0;i<vector.size();i++){
+		  ChatSocket csChatSocket = vector.get(i);
+		  if(!cs.equals(csChatSocket)){
+			  csChatSocket.outInt(u);
+		  }
+	  }
+  }
 }  

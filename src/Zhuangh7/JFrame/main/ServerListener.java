@@ -2,13 +2,16 @@ package Zhuangh7.JFrame.main;
 
 import java.io.IOException;  
 import java.net.ServerSocket;  
-import java.net.Socket;  
-  
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Vector;
+
 import javax.swing.JOptionPane;  
   
 public class ServerListener extends Thread {  
 	public static int Client_num = 0;
 	public static int max_client = 2;
+	
 	@Override  
     public void run() {  
     	
