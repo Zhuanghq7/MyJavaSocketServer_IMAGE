@@ -17,12 +17,12 @@ public class ServerListener extends Thread {
     	
         //1-65535  
         try {  
-            ServerSocket serverSocket = new ServerSocket(1995);  
+            ServerSocket serverSocket = new ServerSocket(2016);  
             while (true) {  
                 //accept()会阻塞主线程，故要开一个新的线程处理  
                 Socket socket = serverSocket.accept();  
                 //建立连接  
-                MainClass.print("有客户端链接到了本机的1995端口");  
+                MainClass.print("有客户端链接到了本机的2016端口");  
                 Client_num++;
                 MainClass.print(socket.getInetAddress().toString());
                 //将socket传递给新的线程  
