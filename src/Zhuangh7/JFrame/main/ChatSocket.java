@@ -92,6 +92,7 @@ public class ChatSocket extends Thread {
 		                    len += dis.read(data, len, size - len);    
 		                }
 		                map.add(data);
+		                MainClass.print("接收到了一张图片");
 	    			}
 	    			size = dis.readInt();
     			}
