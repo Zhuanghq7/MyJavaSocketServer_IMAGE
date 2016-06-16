@@ -31,7 +31,7 @@ public class ChatManager {
           }  
       }  
   }*/
-  public void publish_byte(ChatSocket cs,byte[] b){
+  public synchronized void publish_byte(ChatSocket cs,byte[] b){
 	  for(int i = 0;i<vector.size();i++){
 		  ChatSocket csChatSocket = vector.get(i);
 		  if(!cs.equals(csChatSocket)){
@@ -39,7 +39,7 @@ public class ChatManager {
 		  }
 	  }
   }
-  public void publish_size(ChatSocket cs,int u){
+  public synchronized void publish_size(ChatSocket cs,int u){
 	  for(int i = 0;i<vector.size();i++){
 		  ChatSocket csChatSocket = vector.get(i);
 		  if(!cs.equals(csChatSocket)){

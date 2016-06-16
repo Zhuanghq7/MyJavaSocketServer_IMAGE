@@ -14,10 +14,12 @@ import java.net.Socket;
 import java.util.Vector;  
   
 public class ChatSocket extends Thread {  
-	public static Vector<byte[]> map = new Vector<byte[]>();
-	public static Vector<Integer> Size = new Vector<Integer>();
+	public  Vector<byte[]> map = new Vector<byte[]>();
+	public  Vector<Integer> Size = new Vector<Integer>();
     Socket socket;  
-    public static boolean tag = true;
+    public boolean receive = true;
+    public  boolean tag = true;
+    public sender sender;
     public ChatSocket(Socket s){  
         this.socket = s;  
     }  
@@ -36,9 +38,12 @@ public class ChatSocket extends Thread {
         }  
     }  */
     
-    public void outByte(byte[] b){
+    public synchronized void outByte(byte[] b){
     	try{
-    		socket.getOutputStream().write(b);
+    		//socket.getOutputStream().write(b);
+    		DataOutputStream dis = new DataOutputStream(socket.getOutputStream());
+    		dis.write(b);
+    		dis.flush();
     	}catch(IOException e){
     		MainClass.print("断开了一个客户端链接");  
             ChatManager.getChatManager().remove(this);  
@@ -46,9 +51,12 @@ public class ChatSocket extends Thread {
     	}
     }
     
-    public void outInt(int u){
+    public synchronized void outInt(int u){
     	try {
-			socket.getOutputStream().write(u);
+    		DataOutputStream dis = new DataOutputStream(socket.getOutputStream());
+    		dis.writeInt(u);
+    		dis.flush();
+			//socket.getOutputStream().write(u);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,7 +67,7 @@ public class ChatSocket extends Thread {
     	if(ServerListener.Client_num<=ServerListener.max_client){
     		//out("你已经连接到本服务器了"); 
     		//out("你是第"+ServerListener.Client_num+"个客户");
-    		if(ServerListener.Client_num==1){
+    		/*if(ServerListener.Client_num==1){
     			//out("等待客户2");
     			while(ServerListener.Client_num!=2){
     			//	out(""+ServerListener.Client_num);
@@ -74,26 +82,38 @@ public class ChatSocket extends Thread {
     		}
     		else{
     			//out("与客户1配对");
-    		}
+    		}*/
     		try {  
-    			new sender(this).start();
+    			sender  = new sender(this);
+    			sender.start();
     			InputStream is = socket.getInputStream();
     			DataInputStream dis = new DataInputStream(is);
     			int size = dis.readInt();
     			while(tag){
-	    			if(size!=0){
-	    				if(size == -1){
-	    					tag = false;
-	    				}
-		    			Size.add(size);
-		                byte[] data = new byte[size];    
-		                int len = 0;    
-		                while (len < size) {    
-		                    len += dis.read(data, len, size - len);    
-		                }
-		                map.add(data);
-		                MainClass.print("接收到了一张图片");
-	    			}
+    				if(receive){
+		    			if(size!=0){
+		    				if(size == -1){
+		    					tag = false;
+		    				}
+			                byte[] data = new byte[size];    
+			                int len = 0;    
+			                while (len < size) {    
+			                    len += dis.read(data, len, size - len);    
+			                }
+			                map.add(data);
+			                Size.add(size);
+			                MainClass.print("接收图片"+size);
+
+			                if(map.size()>7&&map.size()<25){
+			                	sender.setPriority(MAX_PRIORITY);
+			                	MainClass.print("降低优先级到3");			                	
+			                }
+			                else
+			                {
+			                	sender.setPriority(NORM_PRIORITY);
+			                }
+		    			}
+    				}
 	    			size = dis.readInt();
     			}
                 
